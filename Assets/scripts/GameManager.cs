@@ -4,15 +4,37 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
+    public GameObject block;
+    public float maxX;
+    public Transform spawnPoint;
+    public float spawnRate;
+
+    bool gameStarted = false;
+
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetMouseButtonDown(0) && !gameStarted)
+        {
+            startSpawning();
+            gameStarted = true;
+        }
+
+    }
+
+    void startSpawning()
+    {
+        InvokeRepeating("SpawnBlock", 0.5f, spawnRate);
+    }
+
+    private void SpawnBlock()
+    {
+        Vector3 spawnPos = spawnPoint.position;
+        spawnPos.x = Random.Range(-maxX, maxX);
+
+        Instantiate(block, spawnPos, Quaternion.identity);
+
     }
 }
